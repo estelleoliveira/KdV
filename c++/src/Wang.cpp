@@ -74,6 +74,9 @@ std::vector<std::vector<double>> W_schema(double L, double T, int M, int N, doub
         if ((n+1) % 500 == 0) {
             std::cout << "Pas " << n+1 << " sur " << N << std::endl;
         }
+        if ((n+1)==N){
+        printf("Dernier pas atteint Wang\n");
+        }
     }
     
     return u;
