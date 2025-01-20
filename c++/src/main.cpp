@@ -3,6 +3,7 @@
 #include <cmath> //pow et sqrt
 
 #include "../include/Wang.h"
+#include "../include/Zk.h"
 #include "../include/functions.h"
 #include "../include/fex.h"
 
@@ -21,11 +22,17 @@ int main() {
     //compute exact solution
     auto u_exact = fex(M, N, T, L, 0.022, U0, Uinf, x0);
 
-    //run solver
+    //run Wang solver
     auto u_w = W_schema(L, T, M, N, eta, mu, x0, Uinf, U0);
     //residu
     double residu = compute_residu(M, N, u_w, u_exact);
-    std::cout << "Résidu avec Wang : " << residu << std::endl;
+    std::cout << "Résidu avec Wang : " << residu << "\n" << std::endl;
+
+    //run ZK solver
+    auto u_zk = ZK_schema(L, T, M, N, eta, mu, x0, Uinf, U0);
+    //residu
+    residu = compute_residu(M, N, u_zk, u_exact);
+    std::cout << "Résidu avec ZK : " << residu << "\n" << std::endl;
 
 
     return 0;
