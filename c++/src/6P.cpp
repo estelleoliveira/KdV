@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath> //pow et sqrt
+#include <chrono>
 
 #include "../include/sixP.h"
 #include "../include/functions.h"
@@ -10,6 +11,7 @@
 // KdV 6P solver
 std::vector<std::vector<double>> sixP_schema(double L, double T, int M, int N, double eta, double mu, double x0, double Uinf, double U0) {
     std::cout << "Calculating sixP scheme..." << std::endl;
+    auto start_time6P = std::chrono::high_resolution_clock::now();
 
     double dx = L / M;
     double dt = T / N;
@@ -75,6 +77,10 @@ std::vector<std::vector<double>> sixP_schema(double L, double T, int M, int N, d
         printf("Dernier pas atteint 6P\n");
         }
     }
+    
+    auto end_time6P = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> duration = end_time6P - start_time6P;
+    std::cout << "Temps de calcul modèle ZK = " << duration.count() << " millisecondes" << std::endl;
     
     return u;
 }

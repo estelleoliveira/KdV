@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath> //pow et sqrt
+#include <chrono>
 
 #include "../include/Wang.h"
 #include "../include/functions.h"
@@ -10,6 +11,7 @@
 //KdV_Wang scheme solver
 std::vector<std::vector<double>> W_schema(double L, double T, int M, int N, double eta, double mu, double x0, double Uinf, double U0) {
     std::cout << "Calculating Wang scheme..." << std::endl;
+    auto start_timeWang = std::chrono::high_resolution_clock::now();
     
     double dx = L / M;  //spatial step
     double dt = T / N;  //temporal step
@@ -78,6 +80,10 @@ std::vector<std::vector<double>> W_schema(double L, double T, int M, int N, doub
         printf("Dernier pas atteint Wang\n");
         }
     }
+
+    auto end_timeWang = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> duration = end_timeWang - start_timeWang;
+    std::cout << "Temps de calcul modèle Wang = " << duration.count() << " millisecondes" << std::endl;
     
     return u;
 }

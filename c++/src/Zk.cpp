@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath> //pow et sqrt
+#include <chrono>
 
 #include "../include/Zk.h"
 #include "../include/functions.h"
@@ -10,6 +11,7 @@
 //KdV_ZK scheme solver
 std::vector<std::vector<double>> ZK_schema(double L, double T, int M, int N, double eta, double mu, double x0, double Uinf, double U0) {
     std::cout << "Calculating ZK scheme..." << std::endl;
+    auto start_timeZK = std::chrono::high_resolution_clock::now();
     
     double dx = L / M;  //spatial step
     double dt = T / N;  //temporal step
@@ -77,6 +79,10 @@ std::vector<std::vector<double>> ZK_schema(double L, double T, int M, int N, dou
         printf("Dernier pas atteint ZK\n");
         }
     }
+
+    auto end_timeZK = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> duration = end_timeZK - start_timeZK;
+    std::cout << "Temps de calcul modèle ZK = " << duration.count() << " millisecondes" << std::endl;
     
     return u;
 }
