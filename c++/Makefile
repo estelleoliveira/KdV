@@ -32,7 +32,7 @@ else
 endif
 
 # Display the flags being used for debug
-$(info CXXFLAGS=$(CXXFLAGS))
+#$(info CXXFLAGS=$(CXXFLAGS))
 
 # Default target
 all: $(EXECUTABLE)
@@ -60,4 +60,4 @@ debug:
 
 # Cleaning build files
 clean:
-	rm -rf $(OBJ_DIR) $(EXECUTABLE)
+	rm -rf $(OBJ_DIR) $(EXECUTABLE) *.txt gnuplot.log frames/

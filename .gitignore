@@ -2,3 +2,6 @@
 
 /c++/obj/
 /c++/kdv
+/c++/*.txt
+/c++/gnuplot.log
+/c++/frames/

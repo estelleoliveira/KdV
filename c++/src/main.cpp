@@ -41,5 +41,19 @@ int main() {
     residu = compute_residu(M, N, u_sixp, u_exact);
     std::cout << "Résidu avec 6P : " << residu << "\n" << std::endl;
 
+
+    // Save results to CSV files
+    auto x = linspace(0, L - L/M, M);
+
+    std::cout << "\nSaving results..." << std::endl;
+    saveToFile(u_w, x, "kdv_w_results.txt");
+    saveToFile(u_zk, x, "kdv_zk_results.txt");
+    saveToFile(u_sixp, x, "kdv_6p_results.txt");
+    saveToFile(u_exact, x, "kdv_exact_results.txt");
+    std::cout << "Results saved to kdv_w_results.txt, kdv_zk_results.txt, kdv_6p_results.txt and kdv_exact_results.txt" << std::endl;
+
+    std::cout << "\nCréation des visualisations..." << std::endl;
+    plotResults("kdv_w_results.txt", "kdv_zk_results.txt", "kdv_6p_results.txt", "kdv_exact_results.txt");
+
     return 0;
 }
