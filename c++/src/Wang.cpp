@@ -10,7 +10,9 @@
 
 //KdV_Wang scheme solver
 std::vector<std::vector<double>> W_schema(double L, double T, int M, int N, double eta, double mu, double x0, double Uinf, double U0) {
+    #ifdef DEBUG
     std::cout << "Calculating Wang scheme..." << std::endl;
+    #endif
     auto start_timeWang = std::chrono::high_resolution_clock::now();
     
     double dx = L / M;  //spatial step
@@ -27,12 +29,14 @@ std::vector<std::vector<double>> W_schema(double L, double T, int M, int N, doub
     double S = ((pow(mu, 2))*dt) / (pow(dx, 3));
     double delta = 0.022;
     double DELTA = delta / (sqrt((U0 - Uinf)/12));
-    
+
+    #ifdef DEBUG 
     //print stability parameters
     double rnum = dt/dx;
     double rtheoric = 2 / (max_abs(fex(M, N, T, L, delta, U0, Uinf, x0)) + (4 * (pow(mu, 2))) / (pow(dx, 2)));
     std::cout << "rW numérique: " << rnum << std::endl;
     std::cout << "rW thérorique: " << rtheoric << std::endl;
+    #endif
 
     //initialise first column u[j,0]
     for (int j = 0; j < M; j++) {
@@ -73,12 +77,16 @@ std::vector<std::vector<double>> W_schema(double L, double T, int M, int N, doub
             std::cout << "Instabilité numérique Wang: boum au pas " << n << std::endl;
             unstable = true;
         }
+        #ifdef DEBUG
         if ((n+1) % 500 == 0) {
             std::cout << "Pas " << n+1 << " sur " << N << std::endl;
         }
+        #endif
+        #ifdef DEBUG
         if ((n+1)==N){
         printf("Dernier pas atteint Wang\n");
         }
+        #endif
     }
 
     auto end_timeWang = std::chrono::high_resolution_clock::now();

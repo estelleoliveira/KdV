@@ -10,7 +10,9 @@
 
 // KdV 6P solver
 std::vector<std::vector<double>> sixP_schema(double L, double T, int M, int N, double eta, double mu, double x0, double Uinf, double U0) {
+    #ifdef DEBUG
     std::cout << "Calculating sixP scheme..." << std::endl;
+    #endif
     auto start_time6P = std::chrono::high_resolution_clock::now();
 
     double dx = L / M;
@@ -23,13 +25,15 @@ std::vector<std::vector<double>> sixP_schema(double L, double T, int M, int N, d
     
     double alpha = (eta * dt) / (3 * dx);
     double S = (mu * mu * dt) / (pow(dx, 3));
-    double delta = 0.022;
     
+    #ifdef DEBUG
+    double delta = 0.022;
     //print stability parameters
     double rnum = dt/dx;
     double rtheoric = 1 / (max_abs(fex(M, N, T, L, delta, U0, Uinf, x0)) + (4 * (pow(mu, 2))) / (pow(dx, 2)));
     std::cout << "rZK numérique: " << rnum << std::endl;
     std::cout << "rZK thérorique: " << rtheoric << std::endl;
+    #endif
     
     // Initialize first column
     for (int j = 0; j < M; j++) {
@@ -70,17 +74,21 @@ std::vector<std::vector<double>> sixP_schema(double L, double T, int M, int N, d
             std::cout << "Instabilité numérique 6P: boum au pas " << n << std::endl;
             unstable = true;
         }
+        #ifdef DEBUG
         if ((n+1) % 500 == 0) {
             std::cout << "Pas " << n+1 << " sur " << N << std::endl;
         }
+        #endif
+        #ifdef DEBUG
         if ((n+1)==N){
         printf("Dernier pas atteint 6P\n");
         }
+        #endif
     }
     
     auto end_time6P = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration = end_time6P - start_time6P;
-    std::cout << "Temps de calcul modèle ZK = " << duration.count() << " millisecondes" << std::endl;
+    std::cout << "Temps de calcul modèle 6P = " << duration.count() << " millisecondes" << std::endl;
     
     return u;
 }

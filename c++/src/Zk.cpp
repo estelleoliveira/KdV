@@ -10,7 +10,9 @@
 
 //KdV_ZK scheme solver
 std::vector<std::vector<double>> ZK_schema(double L, double T, int M, int N, double eta, double mu, double x0, double Uinf, double U0) {
+    #ifdef DEBUG
     std::cout << "Calculating ZK scheme..." << std::endl;
+    #endif
     auto start_timeZK = std::chrono::high_resolution_clock::now();
     
     double dx = L / M;  //spatial step
@@ -25,13 +27,15 @@ std::vector<std::vector<double>> ZK_schema(double L, double T, int M, int N, dou
     //parameters
     double alpha = (eta*dt) / (3*dx);
     double S = ((pow(mu, 2))*dt) / (pow(dx, 3));
-    double delta = 0.022;
     
+    #ifdef DEBUG
+    double delta = 0.022;
     //print stability parameters
     double rnum = dt/dx;
     double rtheoric = 1 / (max_abs(fex(M, N, T, L, delta, U0, Uinf, x0)) + (4 * (pow(mu, 2))) / (pow(dx, 2)));
     std::cout << "rZK numérique: " << rnum << std::endl;
     std::cout << "rZK thérorique: " << rtheoric << std::endl;
+    #endif 
 
     //initialise first column u[j,0]
     for (int j = 0; j < M; j++) {
@@ -72,12 +76,16 @@ std::vector<std::vector<double>> ZK_schema(double L, double T, int M, int N, dou
             std::cout << "Instabilité numérique Wang: boum au pas " << n << std::endl;
             unstable = true;
         }
+        #ifdef DEBUG
         if ((n+1) % 500 == 0) {
             std::cout << "Pas " << n+1 << " sur " << N << std::endl;
         }
+        #endif
+        #ifdef DEBUG
         if ((n+1)==N){
         printf("Dernier pas atteint ZK\n");
         }
+        #endif
     }
 
     auto end_timeZK = std::chrono::high_resolution_clock::now();
